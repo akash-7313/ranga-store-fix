@@ -14,7 +14,8 @@ body {
   justify-content: center;
 }
 .single-product {
-    margin: 10px;
+  height: 600px;
+  margin: 10px;
   padding: 10px;
   transition: 0.6s;
   background-color: #b6a7942f;
