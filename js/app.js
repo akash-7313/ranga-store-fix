@@ -1,3 +1,5 @@
+
+// get data from api
 const loadProducts = () => {
   const url = `https://fakestoreapi.com/products`;
   fetch(url)
@@ -10,23 +12,27 @@ loadProducts();
 const showProducts = (products) => {
     // console.log(products);
   const allProducts = products.map((pd) => pd);
+
     for (const product of allProducts) {
         // console.log(product);
       const image = product.image;
     //   console.log(image);
+      
     const div = document.createElement("div");
     div.classList.add("product");
-    div.innerHTML = `<div class="single-product">
-      <div>
-    <img class="product-image" src=${image}></img>
+    div.innerHTML = `
+      <div class="single-product">
+        <div>
+          <img class="product-image" src=${image}></img>
+        </div>
+          <h3>${product.title}</h3>
+          <p>Category: ${product.category}</p>
+          <h5 class="fs-6">Average rating: <span class="fw-bold fs-5">${product.rating.rate}</span></h5>
+          <h5 class="fs-6">Rated-by: <span class="fw-bold fs-5">${product.rating.count}</span> customer</h5>
+          <h4 class="mt-4">Price: $ ${product.price}</h4>
+          <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
+          <button id="details-btn" class="btn btn-danger" onclick="getSingleProduct(${product.id})">Details</button>
       </div>
-      <h3>${product.title}</h3>
-      <p>Category: ${product.category}</p>
-      <h5>Average rating: <span class="fw-bold fs-5">${product.rating.rate}</span></h5>
-      <h5>Rated-by: <span class="fw-bold fs-5">${product.rating.count}</span> customer</h5>
-      <h4 class="mt-4">Price: $ ${product.price}</h4>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger" onclick="getSingleProduct(${product.id})">Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
   }
@@ -35,7 +41,6 @@ const showProducts = (products) => {
 // get single product by id
 const getSingleProduct = id => {
     const url = `https://fakestoreapi.com/products/${id}`;
-
     fetch(url)
     .then(res => res.json())
     .then(data => displayProductDetail(data))
@@ -52,6 +57,7 @@ const displayProductDetail = product => {
     div.style.border = '2px solid blue';
     div.style.borderRadius = '20px';
     div.style.paddingTop = '10px';
+  
     div.innerHTML = `
         <div>
         <img class="product-image" src=${product.image}></img>
@@ -66,7 +72,7 @@ const displayProductDetail = product => {
     parentCall.appendChild(div);
 }
 
-
+// Total Added-Products
 let count = 0;
 const addToCart = (id, price) => {
   count = count + 1;
@@ -77,6 +83,7 @@ const addToCart = (id, price) => {
     updateTotal();
 };
 
+// function to get price, delivery-charge & tax
 const getInputValue = (id) => {
     const element = document.getElementById(id).innerText;
     // console.log(element);
